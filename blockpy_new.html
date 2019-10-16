@@ -70,6 +70,7 @@
     <script type="text/javascript" src="src/blockly_blocks/turtles.js"></script>
     <script type="text/javascript" src="src/blockly_blocks/text.js"></script>
     <script type="text/javascript" src="src/blockly_blocks/plots.js"></script>
+    <script type="text/javascript" src="src/blockly_blocks/robot.js"></script>
     <script type="text/javascript" src="src/dialog.js"></script>
     <script type="text/javascript" src="src/storage.js"></script>
     <script type="text/javascript" src="src/printer.js"></script>
@@ -235,25 +236,6 @@ function getQueryParams(){
 </script>
 
 <div style='display:none' id='testing-student-code'>
-from cisc108 import assert_equal
-
-def halve(number):
-    '''
-    Args:
-        number (int):
-    Returns:
-        int
-    '''
-    return number / 2
-
-# Correctly handles floating points
-assert_equal(halve(10), 5.0)
-assert_equal(halve(10), 5)
-
-#import matplotlib.pyplot as plt
-
-#plt.plot([1,2,3])
-#plt.show()
 </div>
 
 <div style='display:none' id='testing-give-feedback'>

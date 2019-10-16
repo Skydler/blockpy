@@ -27,7 +27,7 @@ BlockPy.DEFAULT_MODULES = ['Variables', 'Decisions',
                            'Iteration',
                            'Calculation', 'Output', 'Input',
                            'Values', 'Conversion',
-                           'Lists', 'Dictionaries']
+                           'Lists', 'Dictionaries', 'Robot']
 
 /**
  * Initializes the BlockPy object by initializing its interface,

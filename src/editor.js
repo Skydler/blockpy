@@ -577,6 +577,7 @@ BlockPyEditor.prototype.updateBlocks = function() {
         try {
             var newCode = Blockly.Python.workspaceToCode(this.blockly);
         } catch (e) {
+            console.log(e)
             this.clearDeadBlocks();
             this.main.components.feedback.editorError("Unknown Block", "It looks like you attempted to paste or load some blocks that were not known. Typically, this is because you failed to load in the dataset before trying to paste in a data block. If there are any black blocks on the canvas, delete them before continuing.", "Unknown Block");
         }
@@ -1061,7 +1062,14 @@ BlockPyEditor.CATEGORY_MAP = {
                     //'<block type="datetime_check_day"></block>'+
                     //'<block type="datetime_check_time"></block>'+
                 '</category>',
-    'Separator': '<sep></sep>'
+    'Separator': '<sep></sep>',
+    'Robot': '<category name="Robot" colour="40">'+
+                  '<block type="inicializar"></block>'+
+                  '<block type="avanzar"></block>'+
+                  '<block type="derecha"></block>'+
+                  '<block type="retroceder"></block>'+
+                  '<block type="izquierda"></block>'+
+              '</category>',
 };
 
 /**
