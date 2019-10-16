@@ -23,14 +23,9 @@
          aria-label='Problem Introduction'>
         <div class='blockpy-content-top col-md-9 col-sm-9'>
             <span class='blockpy-alert pull-right text-muted-less' data-bind="visible: false, text: status.text"></span>
-            <span role='heading' aria-level='1'>
-                <strong>BlockPy: </strong> 
-                <span class='blockpy-presentation-name'
-                      data-bind='text: assignment.name'></span>
-            </span>
-            <div class='blockpy-presentation' data-bind="html: assignment.introduction">
-            </div>
-            <br>
+            <h1 role='heading' aria-level='1'>
+                <strong>Phanteon</strong>
+            </h1>
             <div data-bind="visible: assignment.files().length">
                 Files Available:<ul data-bind="foreach: assignment.files">
                     <li>
