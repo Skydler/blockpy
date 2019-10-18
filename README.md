@@ -1,7 +1,7 @@
 Phanteon - Blockpy
 ==================
 
-A fork of [Blockpy] (https://github.com/blockpy-edu/blockpy), modified to include a "Robot" module capable of giving commands to an external NodeMCU connected via Wifi and manipulate its behavior
+A fork of [Blockpy](https://github.com/blockpy-edu/blockpy), modified to include a "Robot" module capable of giving commands to an external NodeMCU connected via Wifi and manipulate its behavior
 
 corgis-blockly
 --------------
