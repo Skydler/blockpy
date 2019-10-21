@@ -14,17 +14,17 @@
 function BlockPyEditor(main, tag) {
     this.main = main;
     this.tag = tag;
-    
+
     // This tool is what actually converts text to blocks!
     this.converter = new PythonToBlocks();
-    
+
     // HTML DOM accessors
     this.blockTag = tag.find('.blockpy-blocks');
     this.blocklyDiv = this.blockTag.find('.blockly-div');
     this.textTag = tag.find('.blockpy-text');
     this.instructorTag = tag.find('.blockpy-instructor');
     this.textSidebarTag = this.textTag.find(".blockpy-text-sidebar");
-    
+
     // Blockly and CodeMirror instances
     this.blockly = null;
     this.codeMirror = null;
@@ -35,26 +35,26 @@ function BlockPyEditor(main, tag) {
     this.silenceModel = 0;
     this.blocksFailed = false;
     this.blocksFailedTimeout = null;
-    
-    // Hack to prevent chrome errors. Forces audio to load on demand. 
+
+    // Hack to prevent chrome errors. Forces audio to load on demand.
     // See: https://github.com/google/blockly/issues/299
     Blockly.WorkspaceSvg.prototype.preloadAudio_ = function() {};
-    
+
     // Keep track of the toolbox width
     this.blocklyToolboxWidth = 0;
-    
+
     // Initialize subcomponents
     this.initText();
     this.initBlockly();
     this.initInstructor();
-    
+
     this.triggerOnChange = null;
     var editor = this;
     var firstEdit = true;
     this.main.model.program.subscribe(function() {
         editor.updateBlocksFromModel();
         editor.updateTextFromModel();
-        
+
         if (editor.main.model.settings.filename() == "__main__" &&
             !firstEdit) {
             if (editor.triggerOnChange) {
@@ -65,7 +65,7 @@ function BlockPyEditor(main, tag) {
         }
         firstEdit = false;
     });
-    
+
     // Handle mode switching
     var settings = this.main.model.settings;
     settings.editor.subscribe(function() {editor.setMode()});
@@ -76,21 +76,21 @@ function BlockPyEditor(main, tag) {
     };
     settings.read_only.subscribe(updateReadOnly);
     settings.instructor.subscribe(updateReadOnly);
-    
+
     // Handle filename switching
     this.main.model.settings.filename.subscribe(function (name) {
         if (name == 'give_feedback') {
             editor.setMode('Text');
         }
     });
-    
+
     // Handle Upload mode turned on
     this.main.model.assignment.upload.subscribe(function(uploadsMode) {
         if (uploadsMode) {
             editor.setMode('Text');
         }
     });
-    
+
     // Have to force a manual block update
     //this.updateText();
     this.updateBlocksFromModel();
@@ -104,8 +104,8 @@ function BlockPyEditor(main, tag) {
  */
 BlockPyEditor.prototype.initBlockly = function() {
     this.blockly = Blockly.inject(this.blocklyDiv[0],
-                                  { path: this.main.model.constants.blocklyPath, 
-                                    scrollbars: this.main.model.constants.blocklyScrollbars, 
+                                  { path: this.main.model.constants.blocklyPath,
+                                    scrollbars: this.main.model.constants.blocklyScrollbars,
                                     readOnly: this.main.model.settings.read_only(),
                                     zoom: {enabled: false},
                                     oneBasedIndex: false,
@@ -113,12 +113,12 @@ BlockPyEditor.prototype.initBlockly = function() {
                                     toolbox: this.updateToolbox(false)});
     // Register model changer
     var editor = this;
-    this.blockly.addChangeListener(function(evt) { 
+    this.blockly.addChangeListener(function(evt) {
         //editor.main.components.feedback.clearEditorErrors();
         editor.blockly.highlightBlock(null);
         editor.updateBlocks();
     });
-    
+
     this.main.model.settings.filename.subscribe(function() {
         /*if (editor.main.model.settings.editor() == "Blocks") {
             editor.updateBlocksFromModel()
@@ -130,15 +130,15 @@ BlockPyEditor.prototype.initBlockly = function() {
     this.makeToolboxAccessible();
     // Keep the toolbox width set
     this.blocklyToolboxWidth = this.getToolbarWidth();
-    
+
     Blockly.captureDialog_ = this.copyImage.bind(this);
-    
-    // Enable static type checking! 
+
+    // Enable static type checking!
     /*
     this.blockly.addChangeListener(function() {
         if (!editor.main.model.settings.disable_variable_types()) {
             var variables = editor.main.components.engine.analyzeVariables()
-            editor.blockly.getAllBlocks().filter(function(r) {return r.type == 'variables_get'}).forEach(function(block) { 
+            editor.blockly.getAllBlocks().filter(function(r) {return r.type == 'variables_get'}).forEach(function(block) {
                 var name = block.inputList[0].fieldRow[0].value_;
                 if (name in variables) {
                     var type = variables[name];
@@ -181,8 +181,8 @@ BlockPyEditor.prototype.getToolbarWidth = function() {
 BlockPyEditor.prototype.initText = function() {
     var codeMirrorDiv = this.textTag.find('.codemirror-div')[0];
     this.codeMirror = CodeMirror.fromTextArea(codeMirrorDiv, {
-                                        mode: { name: "python", 
-                                                version: 3, 
+                                        mode: { name: "python",
+                                                version: 3,
                                                 singleLineStringErrors: false
                                         },
                                         readOnly: this.main.model.settings.read_only(),
@@ -193,7 +193,7 @@ BlockPyEditor.prototype.initText = function() {
                                         tabSize: 4,
                                         indentWithTabs: false,
                                         matchBrackets: true,
-                                        extraKeys: {"Tab": "indentMore", 
+                                        extraKeys: {"Tab": "indentMore",
                                                     "Shift-Tab": "indentLess",
                                                     "Ctrl-Enter": function() {
                                                         editor.main.components.toolbar.tag.find('.blockpy-run').click();
@@ -212,7 +212,7 @@ BlockPyEditor.prototype.initText = function() {
 
     // Ensure that it fills the editor area
     this.codeMirror.setSize(null, "100%");
-    
+
     this.makeCodeMirrorAccessible();
 };
 
@@ -240,7 +240,7 @@ BlockPyEditor.prototype.makeSummernoteAccessible = function() {
     $('.note-popover').attr('role', 'presentation');
     // Oh good lord.
     $('[role=seperator]').attr('role', 'separator')
-    
+
     // Override tabs in summernote.
     delete $.summernote.options.keyMap.pc.TAB;
     delete $.summernote.options.keyMap.mac.TAB;
@@ -254,7 +254,7 @@ BlockPyEditor.prototype.makeSummernoteAccessible = function() {
 BlockPyEditor.prototype.initInstructor = function() {
     var introductionEditor = this.tag.find('.blockpy-presentation-body-editor');
     var model = this.main.model;
-    
+
     introductionEditor.summernote({
         codemirror: { // codemirror options
             theme: 'monokai'
@@ -267,9 +267,9 @@ BlockPyEditor.prototype.initInstructor = function() {
             ['misc', ['codeview', 'help']]
         ],
     });
-    
+
     this.reloadIntroduction();
-    
+
     this.availableModules = this.tag.find('.blockpy-available-modules');
     this.availableModules.multiSelect({ selectableOptgroup: true });
 }
@@ -277,11 +277,11 @@ BlockPyEditor.prototype.initInstructor = function() {
 /**
  * Makes the module available in the availableModules multi-select menu by adding
  * it to the list.
- * 
+ *
  * @param {String} name - The name of the module (human-friendly version, as opposed to the slug) to be added.
  */
 BlockPyEditor.prototype.addAvailableModule = function(name) {
-    this.availableModules.multiSelect('addOption', { 
+    this.availableModules.multiSelect('addOption', {
         'value': name, 'text': name
     });
     this.availableModules.multiSelect('select', name);
@@ -302,7 +302,7 @@ BlockPyEditor.prototype.hideSplitMenu = function() {
 BlockPyEditor.prototype.showSplitMenu = function() {
     this.showBlockMenu();
     this.showTextMenu();
-    
+
     this.textTag.css('width', '40%');
     this.blockTag.css('width', '60%');
     this.textSidebarTag.css('width', '0px');
@@ -334,7 +334,7 @@ BlockPyEditor.prototype.showTextMenu = function() {
     $(this.codeMirror.getWrapperElement()).show();
     // CodeMirror doesn't know its changed size
     this.codeMirror.refresh();
-    
+
     // Resize sidebar
     var codemirrorGutterWidth = $('.CodeMirror-gutters').width();
     var sideBarWidth = this.blocklyToolboxWidth-codemirrorGutterWidth-2;
@@ -347,7 +347,7 @@ BlockPyEditor.prototype.showTextMenu = function() {
  * Hides the Block tab, which involves shrinking it and hiding the Blockly instance.
  */
 BlockPyEditor.prototype.hideBlockMenu = function() {
-    
+
     this.blocklyToolboxWidth = this.getToolbarWidth();
     this.blockTag.css('height', '0%');
     this.blocklyDiv.css("width", "0");
@@ -459,7 +459,7 @@ BlockPyEditor.prototype.changeMode = function() {
 
 /**
  * Dispatch method to set the mode to the given argument.
- * If the mode is invalid, an editor error is reported. If the 
+ * If the mode is invalid, an editor error is reported. If the
  *
  * @param {String} mode - The new mode to set to ("Blocks", "Text", or "Instructor")
  */
@@ -568,7 +568,7 @@ BlockPyEditor.prototype.clearDeadBlocks = function() {
 }
 
 /**
- * Attempts to update the model for the current code file from the 
+ * Attempts to update the model for the current code file from the
  * block workspace. Might be prevented if an update event was already
  * percolating.
  */
@@ -595,7 +595,7 @@ BlockPyEditor.prototype.updateBlocks = function() {
 }
 
 /**
- * Attempts to update the model for the current code file from the 
+ * Attempts to update the model for the current code file from the
  * text editor. Might be prevented if an update event was already
  * percolating. Also unhighlights any lines.
  */
@@ -671,7 +671,7 @@ BlockPyEditor.prototype.updateBlocksFromModel = function() {
 BlockPyEditor.prototype.getBlocksFromXml = function() {
     return Blockly.Xml.workspaceToDom(this.blockly);
 }
-          
+
 /**
  * Helper function for setting the current Blockly workspace to
  * whatever XML DOM is given. This clears out any existing blocks.
@@ -682,7 +682,7 @@ BlockPyEditor.prototype.setBlocksFromXml = function(xml) {
     //console.log(this.blockly.getAllBlocks());
 }
 
-/** 
+/**
  * @property {Number} previousLine - Keeps track of the previously highlighted line.
  */
 BlockPyEditor.prototype.previousLine = null;
@@ -1062,14 +1062,15 @@ BlockPyEditor.CATEGORY_MAP = {
                     //'<block type="datetime_check_day"></block>'+
                     //'<block type="datetime_check_time"></block>'+
                 '</category>',
+                'Robot': '<category name="Robot" colour="40">'+
+                              '<block type="inicializar"></block>'+
+                              '<block type="avanzar"></block>'+
+                              '<block type="derecha"></block>'+
+                              '<block type="retroceder"></block>'+
+                              '<block type="izquierda"></block>'+
+                          '</category>',
     'Separator': '<sep></sep>',
-    'Robot': '<category name="Robot" colour="40">'+
-                  '<block type="inicializar"></block>'+
-                  '<block type="avanzar"></block>'+
-                  '<block type="derecha"></block>'+
-                  '<block type="retroceder"></block>'+
-                  '<block type="izquierda"></block>'+
-              '</category>',
+
 };
 
 /**
@@ -1151,7 +1152,7 @@ BlockPyEditor.prototype.loadCss = function() {
  * string as part of a data URL (e.g., "data:image/png;base64,...").
  * TODO: There seems to be some problems capturing blocks that don't start with
  * statement level blocks (e.g., expression blocks).
- * 
+ *
  * @param {Function} callback - A function to be called with the results. This function should take two parameters, the URL (as a string) of the generated base64-encoded PNG and the IMG tag.
  */
 BlockPyEditor.prototype.getPngFromBlocks = function(callback) {
