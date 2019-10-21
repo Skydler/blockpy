@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Blockpy</title>
-    
+
     <link rel="stylesheet" href="libs/bootstrap.min.css">
     <link rel="stylesheet" href="libs/codemirror/codemirror.css">
     <link rel="stylesheet" href="libs/font-awesome.min.css">
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="libs/multi-select.css">
     <link rel="stylesheet" href="src/blockpy.css">
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">-->
-    
+
     <!-- JQuery, D3, Math.js, Bootstrap -->
     <script type="text/javascript" src="libs/jquery.js"></script>
     <script type="text/javascript" src="libs/jquery-ui.min.js"></script>
@@ -28,12 +28,12 @@
     <script type="text/javascript" src="libs/codemirror/xml.js"></script>
     <script type="text/javascript" src="libs/knockout-3.4.0.js"></script>
     <script type="text/javascript" src="libs/stringify.js"></script>
-    
+
     <!-- Summernote, a rich text editor -->
     <script type="text/javascript" src="libs/summernote/summernote.min.js"></script>
     <script type="text/javascript" src="libs/summernote/summernote-ext-hint.js"></script>
     <script type="text/javascript" src="libs/summernote/summernote-ext-video.js"></script>
-    
+
     <!-- Blockly -->
     <script type="text/javascript" src="../blockly/blockly_uncompressed.js"></script>
     <script type="text/javascript" src="../blockly/blocks_compressed.js"></script>
@@ -41,11 +41,11 @@
     <script type="text/javascript" src="../blockly/pseudo_compressed.js"></script>
     <script type="text/javascript" src="../blockly/javascript_compressed.js"></script>
     <script type="text/javascript" src="../blockly/msg/js/en.js"></script>
-    
+
     <!-- Skulpt -->
     <script type="text/javascript" src="../skulpt/dist/skulpt.min.js"></script>
     <script type="text/javascript" src="../skulpt/dist/skulpt-stdlib.js"></script>
-    
+
     <!-- Source Code -->
     <script type="text/javascript" src="src/utilities.js"></script>
     <script type="text/javascript" src="src/python_errors.js"></script>
@@ -86,32 +86,32 @@
     <script type="text/javascript" src="src/sk_mod_instructor.js"></script>
     <script type="text/javascript" src="src/engine.js"></script>
     <script type="text/javascript" src="src/main.js"></script>
-    
+
     <!-- CORGIS -->
     <!--<script type="text/javascript" src="test_corgis/blockpy/school_scores/school_scores_dataset.js"></script>
     <script type="text/javascript" src="test_corgis/blockpy/school_scores/school_scores_blockly.js"></script>
     <script type="text/javascript" src="test_corgis/blockpy/school_scores/school_scores_skulpt.js"></script>-->
-    
+
     <!--<script type="text/javascript" src="test_corgis/blockpy/tate/tate_blockly.js"></script>
     <script type="text/javascript" src="test_corgis/blockpy/tate/tate_skulpt.js"></script>
     <script type="text/javascript" src="test_corgis/blockpy/tate/tate_dataset.js"></script>-->
-    
+
     <!--<script type="text/javascript" src="test_corgis/blockpy/broadway/broadway_blockly.js"></script>
     <script type="text/javascript" src="test_corgis/blockpy/broadway/broadway_skulpt.js"></script>
     <script type="text/javascript" src="test_corgis/blockpy/broadway/broadway_dataset.js"></script>-->
-    
+
     <!--<script type="text/javascript" src="test_corgis/blockpy/tate/publishers_blockly.js"></script>
     <script type="text/javascript" src="test_corgis/blockpy/tate/publishers_skulpt.js"></script>
     <script type="text/javascript" src="test_corgis/blockpy/tate/publishers_dataset.js"></script>-->
-    
+
     <!--<script type="text/javascript" src="test_corgis/blockpy/weather/weather_blockly.js"></script>
     <script type="text/javascript" src="test_corgis/blockpy/weather/weather_skulpt.js"></script>
     <script type="text/javascript" src="test_corgis/blockpy/weather/weather_dataset.js"></script>-->
-    
+
     <style>
 
     </style>
-    
+
     <script>
     $(document).ready(function() {
         blockpy = new BlockPy({
@@ -194,7 +194,7 @@
                 //'__main__': 'print(1 != 2 and 2 != 1)'
             }
         )
-        
+
         function inIframe () {
             try {
                 return window.self !== window.top;
@@ -207,7 +207,7 @@
         }
     });
     </script>
-  
+
 </head>
 <body>
 <div style="width:900px;  margin:0 auto;" id='blockpy-container'> <!-- 900px -->
@@ -235,10 +235,10 @@ function getQueryParams(){
 </script>
 
 <div style='display:none' id='testing-student-code'>
-import matplotlib.pyplot as plt
+<!import matplotlib.pyplot as plt>
 
-plt.plot([1,2,3])
-plt.show()
+<!plt.plot([1,2,3])>
+<!plt.show()>
 </div>
 
 <div style='display:none' id='testing-give-feedback'>
@@ -248,7 +248,7 @@ run_student()
 log(get_output())
 </div>
 
-  
+
 <!-- Google Analytics -->
 <script>
 switch(window.location.protocol) {
